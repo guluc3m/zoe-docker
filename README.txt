@@ -1,5 +1,5 @@
 
-Now you should be able to do:
+To start Zoe, do:
 
 $ docker-compose build
 $ docker-compose up
