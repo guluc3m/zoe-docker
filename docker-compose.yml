@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+  rabbitmq:
+    build: ./rabbitmq
+    expose:
+      - '5672'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  zoe-agent-mail:
+    build: ./zoe-agent-mail
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
+
+  zoe-agent-msglog:
+    build: ./zoe-agent-msglog
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
+
+  zoe-agent-shell:
+    build: ./zoe-agent-shell
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
+
+  zoe-agent-user:
+    build: ./zoe-agent-user
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
+
