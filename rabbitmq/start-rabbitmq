@@ -2,7 +2,7 @@
 
 rabbitmq-server &
 PID=$!
-sleep 5
+while ! echo exit | nc rabbitmq 5672; do sleep 1; done
 rabbitmqctl add_user zoe zoe
 rabbitmqctl set_user_tags zoe administrator
 rabbitmqctl set_permissions -p / zoe '.*' '.*' '.'
@@ -12,6 +12,6 @@ wait $PID
 
 rabbitmq-server &
 PID=$!
-sleep 5
+while ! echo exit | nc rabbitmq 5672; do sleep 1; done
 { while true; do nc -l 9999; done } &
 wait $PID
