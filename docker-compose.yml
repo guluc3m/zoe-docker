@@ -2,17 +2,23 @@ version: '2'
 
 services:
   rabbitmq:
-    build: ./rabbitmq
+    image: rabbitmq:management-alpine
     expose:
       - '5672'
     ports:
       - '5672:5672'
       - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: 'zoe'
+      RABBITMQ_DEFAULT_PASS: 'zoe'
 
   zoe-agent-mail:
     build: ./zoe-agent-mail
     depends_on:
       - rabbitmq
+    volumes:
+      - './zoe-agent-mail/src:/code/src'
+    command: 'monitor /code python3 -u /code/src/agent.py'
     environment:
       RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
 
@@ -20,6 +26,9 @@ services:
     build: ./zoe-agent-msglog
     depends_on:
       - rabbitmq
+    volumes:
+      - './zoe-agent-msglog/src:/code/src'
+    command: 'monitor /code python3 -u /code/src/agent.py'
     environment:
       RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
 
@@ -34,6 +43,8 @@ services:
     build: ./zoe-agent-user
     depends_on:
       - rabbitmq
+    volumes:
+      - './zoe-agent-user/src:/code/src'
+    command: 'monitor /code python3 -u /code/src/agent.py'
     environment:
       RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
-
