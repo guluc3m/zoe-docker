@@ -11,9 +11,9 @@ To start Zoe:
 
 1. Open another terminal and launch Kafka:
 
-    `$ docker-compose up --build kafka`
+    `$ docker-compose up --build kafka`
 
-  Wait for a few seconds until Kafka initialises.
+    Wait for a few seconds until Kafka initialises.
 
 1. Open another terminal and launch agent msglog:
 
