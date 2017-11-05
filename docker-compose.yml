@@ -1,50 +1,60 @@
-version: '2'
+version: '3'
 
 services:
-  rabbitmq:
-    image: rabbitmq:management-alpine
-    expose:
-      - '5672'
+  zookeeper:
+    image: zookeeper:latest
+    restart: always
     ports:
-      - '5672:5672'
-      - '15672:15672'
+      - 2181:2181
+
+  kafka:
+    image: wurstmeister/kafka
+    restart: always
+    ports:
+      - 9092:9092
+    depends_on:
+      - zookeeper
     environment:
-      RABBITMQ_DEFAULT_USER: 'zoe'
-      RABBITMQ_DEFAULT_PASS: 'zoe'
+      KAFKA_CREATE_TOPICS: zoe:10:1
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
   zoe-agent-mail:
     build: ./zoe-agent-mail
     depends_on:
-      - rabbitmq
+      - kafka
     volumes:
       - './zoe-agent-mail/src:/code/src'
     command: 'monitor /code python3 -u /code/src/agent.py'
     environment:
-      RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
+      KAFKA_SERVERS: kafka:9092
 
   zoe-agent-msglog:
     build: ./zoe-agent-msglog
     depends_on:
-      - rabbitmq
+      - kafka
     volumes:
       - './zoe-agent-msglog/src:/code/src'
     command: 'monitor /code python3 -u /code/src/agent.py'
     environment:
-      RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
+      KAFKA_SERVERS: kafka:9092
 
   zoe-agent-shell:
     build: ./zoe-agent-shell
-    depends_on:
-      - rabbitmq
+    volumes:
+      - './zoe-agent-shell/src:/code/src'
     environment:
-      RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
+      KAFKA_SERVERS: kafka:9092
 
   zoe-agent-user:
     build: ./zoe-agent-user
     depends_on:
-      - rabbitmq
+      - kafka
     volumes:
       - './zoe-agent-user/src:/code/src'
     command: 'monitor /code python3 -u /code/src/agent.py'
     environment:
-      RABBITMQ_URL: "amqp://zoe:zoe@rabbitmq:5672/%2F"
+      KAFKA_SERVERS: kafka:9092
