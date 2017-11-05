@@ -30,7 +30,7 @@ To start Zoe:
 
 1. Open another terminal and launch agent shell:
 
-    $ docker-compose run zoe-agent-shell`
+    `$ docker-compose run zoe-agent-shell`
 
     You should see a welcome message. Type:
 
