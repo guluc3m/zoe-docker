@@ -1,40 +1,52 @@
 
 To start Zoe:
 
-1. Open a terminal and get the latest base image:
+1.  Open a terminal and get the latest base image:
 
-    `$ docker pull voiser/zoe-agent:latest`
+    ```
+    $ docker pull voiser/zoe-agent:latest
+    ```
 
-1. Launch Zookeeper:
+1.  Launch Zookeeper:
 
-    `$ docker-compose up --build zookeeper`
+    ```
+    $ docker-compose up --build zookeeper
+    ```
 
-1. Open another terminal and launch Kafka:
+1.  Open another terminal and launch Kafka:
 
-    `$ docker-compose up --build kafka`
+    ```
+    $ docker-compose up --build kafka
+    ```
 
     Wait for a few seconds until Kafka initialises.
 
-1. Open another terminal and launch agent msglog:
+1.  Open another terminal and launch agent msglog:
 
-    `$ docker-compose up --build zoe-agent-msglog`
+    ```
+    $ docker-compose up --build zoe-agent-msglog
+    ```
 
-   You should see something like:
-   ```
-   zoe-agent-msglog_1  | ** Checking /code for changes...
-   zoe-agent-msglog_1  | ** Starting python3 -u /code/src/agent.py
-   zoe-agent-msglog_1  | Setting up watches.  Beware: since -r was given, this may take a while!
-   zoe-agent-msglog_1  | Watches established.
-   zoe-agent-msglog_1  | Running!
-   ```
+    You should see something like:
+    ```
+    zoe-agent-msglog_1  | ** Checking /code for changes...
+    zoe-agent-msglog_1  | ** Starting python3 -u /code/src/agent.py
+    zoe-agent-msglog_1  | Setting up watches.  Beware: since -r was given, this may take a while!
+    zoe-agent-msglog_1  | Watches established.
+    zoe-agent-msglog_1  | Running!
+    ```
 
-1. Open another terminal and launch agent shell:
+1.  Open another terminal and launch agent shell:
 
-    `$ docker-compose run zoe-agent-shell`
+    ```
+    $ docker-compose run zoe-agent-shell
+    ```
 
     You should see a welcome message. Type:
 
-    `email(user('someone'), 'subject', 'body')`
+    ```
+    email(user('someone'), 'subject', 'body')
+    ```
 
     This is Zoe's hello world :)
 
@@ -90,17 +102,6 @@ To start Zoe:
     Now, let's check the status of one of them, for example, `Log`:
     ```
     bash-4.3# ./bin/kafka-consumer-groups.sh --bootstrap-server kafka:9092 --describe --group Log
-    GROUP                          TOPIC                          PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             OWNER
-    Log                            zoe                            0          0               0               0               kafka-python-1.3.5_/172.18.0.4
-    Log                            zoe                            1          0               0               0               kafka-python-1.3.5_/172.18.0.4
-    Log                            zoe                            2          1               1               0               kafka-python-1.3.5_/172.18.0.4
-    Log                            zoe                            3          0               0               0               kafka-python-1.3.5_/172.18.0.4
-    Log                            zoe                            4          0               0               0               kafka-python-1.3.5_/172.18.0.4
-    Log                            zoe                            5          0               0               0               kafka-python-1.3.5_/172.18.0.4
-    Log                            zoe                            6          0               0               0               kafka-python-1.3.5_/172.18.0.4
-    Log                            zoe                            7          0               0               0               kafka-python-1.3.5_/172.18.0.4
-    Log                            zoe                            8          0               0               0               kafka-python-1.3.5_/172.18.0.4
-    Log                            zoe                            9          0               0               0               kafka-python-1.3.5_/172.18.0.4    ```
     ```
 
     This means that:
@@ -110,21 +111,25 @@ To start Zoe:
     - `CURRENT_OFFSET` tells us that here has been a single message in the topic (in this case in partition 2)
     - `LOG-END-OFFSET` tells us that the message has been correctly consumed.
 
-1. Launch the remaining agents in another terminal:
+1.  Launch the remaining agents in another terminal:
 
-  `$ docker-compose up --build zoe-agent-user zoe-agent-mail ... # whatever`
+    ```
+    $ docker-compose up --build zoe-agent-user zoe-agent-mail ... # whatever
+    ```
 
-If you inspect Kafka again, you should see all agents connected. Now, go back
-to the shell and repeat the same command:
+    If you inspect Kafka again, you should see all agents connected. Now, go back
+    to the shell and repeat the same command:
 
-    `email(user('someone'), 'subject', 'body')`
+    ```
+    email(user('someone'), 'subject', 'body')
+    ```
 
-You should see a response this time, something like:
+    You should see a response this time, something like:
 
-```
-[{'data': 'notification', 'from': 'email', 'text': 'message sent'}]
-```
+    ```
+    [{'data': 'notification', 'from': 'email', 'text': 'message sent'}]
+    ```
 
-Take a look at the message log and you should see a bunch of messages interchanged.
-You should also see how the intent tree is reduced to generate the final result
-displayed in the shell. That's great!
+    Take a look at the message log and you should see a bunch of messages interchanged.
+    You should also see how the intent tree is reduced to generate the final result
+    displayed in the shell. That's great!
