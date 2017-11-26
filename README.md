@@ -1,3 +1,12 @@
+Before start Zoe:
+
+1. Make sure download.sh has execution permissions.
+
+2. Execute download.sh
+
+    ```
+    $ ./download.sh
+    ```
 
 To start Zoe:
 
