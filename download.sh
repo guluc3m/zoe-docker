@@ -17,6 +17,4 @@ done
 echo
 echo All subprojects downloaded
 echo
-cat README.txt
-
-
+cat README.md
