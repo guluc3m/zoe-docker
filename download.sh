@@ -15,6 +15,6 @@ do
 done
 
 echo
-echo All subprojects downloaded
+echo All subprojects downloaded. Take a look at README files to launch your Zoe instance.
 echo
-cat README.md
+
