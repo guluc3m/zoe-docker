@@ -1,35 +1,7 @@
 
-Before start Zoe:
-
-1. Make sure download.sh has execution permissions.
-
-2. Execute download.sh
-
-    ```
-    $ ./download.sh
-    ```
-
 To start Zoe:
 
-1.  Open a terminal and get the latest base image:
-
-    ```
-    $ docker pull voiser/zoe-agent:latest
-    ```
-
-1.  Launch Zookeeper:
-
-    ```
-    $ docker-compose up --build zookeeper
-    ```
-
-1.  Open another terminal and launch Kafka:
-
-    ```
-    $ docker-compose up --build kafka
-    ```
-
-    Wait for a few seconds until Kafka initialises.
+1.  Launch Zookeeper and Kafka
 
 1.  Create and activate virtual environment:
 
