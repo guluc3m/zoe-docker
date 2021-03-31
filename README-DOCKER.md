@@ -1,12 +1,16 @@
 Before start Zoe:
 
-1. Make sure download.sh has execution permissions.
+1. Make sure download.sh has execution permissions
 
-2. Execute download.sh
+2. Execute install-docker.sh, which will install docker and docker-compose if you haven't them already 
+
+3. Execute download.sh, which will install the dependencies, such as docker and docker-compose (FOR DEBIAN) and download the default Zoe agents
 
     ```
     $ ./download.sh
     ```
+
+    The download script will download what we think are the "core" agents of Zoe. Feel free to remove or include any agent you like. Note that if you remove the `zoe-agent-msglog` and the `zoe-agent-shell` debugging and development will be more difficult
 
 To start Zoe:
 
@@ -16,13 +20,13 @@ To start Zoe:
     $ docker pull voiser/zoe-agent:latest
     ```
 
-1.  Launch Zookeeper:
+1.  Launch Zookeeper (This will be running in foreground, so you will need more than 1 terminal):
 
     ```
     $ docker-compose up --build zookeeper
     ```
 
-1.  Open another terminal and launch Kafka:
+1.  Open another terminal and launch Kafka (This will be running in foreground too):
 
     ```
     $ docker-compose up --build kafka
@@ -30,7 +34,7 @@ To start Zoe:
 
     Wait for a few seconds until Kafka initialises.
 
-1.  Open another terminal and launch agent msglog:
+1.  Open another terminal and launch agent msglog (More foreground):
 
     ```
     $ docker-compose up --build zoe-agent-msglog

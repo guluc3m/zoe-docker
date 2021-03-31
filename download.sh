@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Download Zoe agents
 AGENTS="zoe-agent-mail zoe-agent-msglog zoe-agent-user zoe-agent-shell"
 
 for i in $AGENTS
